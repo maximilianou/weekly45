@@ -2,28 +2,21 @@
 Learning graphql
 
 
-
-
+---
 ---
 #### Starting the project Neo4j, ui
 - Running in command line ( terminal )
-```
+```yaml
 $ make step4500 # cleaning docker images and containers
 $ make step4502 # starting docker-compose, local env
 ```
-REFERENCE:
-- neo4j
-<https://neo4j.com/developer/docker/>
-
-<https://github.com/neo4j/docker-neo4j>
 
 - Open the browser
   - ui   <http://localhost:4500/>
   - neo4j   <http://localhost:7474/>
 
-
 - Makefile
-```sh
+```yaml
 step4500 docker-system-prune:
 	docker system prune -af	
 
@@ -70,13 +63,17 @@ services:
 networks:
   app_prv_net:
 ```
+- REFERENCE:
+  - neo4j
+    - <https://neo4j.com/developer/docker/>
+    - <https://github.com/neo4j/docker-neo4j>
 
 ---
 ---
 #### Starting the project ui base react, typescript, docker-compose local env
 ---
 - Makefile
-```sh
+```yaml
 step4501 graphql-ui-init:
 	cd app && npm uninstall -g create-react-app && npx create-react-app ui --template typescript
 
@@ -90,7 +87,6 @@ step4503 docker-system-prune:
 ---
 - docker/docker-compose.yaml
 ```yaml
-```
 version: '3.9'
 services:
   ui:
@@ -110,4 +106,7 @@ services:
       - app_prv_net
 networks:
   app_prv_net:
+
+```
+  
 ---
