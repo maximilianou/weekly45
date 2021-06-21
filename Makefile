@@ -11,14 +11,15 @@ step00 view-hostname:
 	@echo $(servers-exec-cmd)
 	@echo '$(servers-exec-usr-id)'
 
+step4500 docker-system-prune:
+	docker system prune -af	
+
 step4501 graphql-ui-init:
 	cd app && npm uninstall -g create-react-app && npx create-react-app ui --template typescript
 
 step4502 graphql-compose-start:
 	docker-compose -f docker/docker-compose.yml up --remove-orphans
 
-step4503 docker-system-prune:
-	docker system prune -af	
 
 
 #step4403 docker-psql-ls:
