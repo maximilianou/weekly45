@@ -3,3 +3,8 @@ build/
 logs/
 
 src/app/.notes
+node_modules/
+build/
+logs/
+
+src/app/.notes
