@@ -20,7 +20,21 @@ step4501 graphql-ui-init:
 step4502 graphql-compose-start:
 	docker-compose -f docker/docker-compose.yml up --remove-orphans
 
+step4503 docker-registry-start:
+	docker run -d -p 5000:5000 --name registry -v /mnt/registry:/var/lib/registry registry:2
+	docker pull alpine:3
+	docker tag alpine:3 localhost:5000/dev_alpine
+	docker push localhost:5000/dev_alpine
+	# docker image remove alpine:3
+	# docker image remove localhost:5000/dev_alpine
+	# docker pull localhost:5000/dev_alpine
 
+step4504 docker-registry-stop:
+	docker container stop registry && docker container rm -v registry
+
+step4505 graphql-api-init:
+	cd app && npx create-express-typescript-application api -t plain
+	cd app && cd api && npm i @neo4j/graphql graphql apollo-server neo4j-driver
 
 #step4403 docker-psql-ls:
 #	docker exec docker_db_1 psql -Upostgres -d postgres -c '\l'	

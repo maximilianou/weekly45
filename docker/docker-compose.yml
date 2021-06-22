@@ -1,7 +1,68 @@
 # Use postgres/example user/password credentials
 version: '3.9'
 
+networks:
+  app_prv_net:
+
 services:
+
+  ui:
+    #build: 
+    #  context: ../app/
+    #  dockerfile: ui/Dockerfile.dev
+    #  target: dev
+    image: node:alpine
+    command: sh -c "npm install && npm run start"
+    working_dir: /ui
+    container_name: app_ui
+    volumes:
+      - ../app/ui:/ui
+      - ../app/ui/node_modules:/ui/node_modules
+    ports:
+      - "4500:3000" 
+      - "49153:49153"
+    environment:
+      - NODE_ENV=dev
+    networks:
+      - app_prv_net
+
+  api:
+    #build: 
+    #  context: ../app/
+    #  dockerfile: api/Dockerfile.dev
+    #  target: dev
+    image: node:alpine
+    command: sh -c "npm install && npm run dev:nodemon"
+    working_dir: /api
+    container_name: app_api
+    volumes:
+      - ../app/api:/api
+      - ../app/api/node_modules:/api/node_modules
+    ports:
+      - "4000:4000" 
+      - "49155:49153"
+    environment:
+      - NODE_ENV=dev
+    networks:
+      - app_prv_net
+
+  neo4j:
+    # https://neo4j.com/developer/docker/
+    # https://github.com/neo4j/docker-neo4j
+    # docker run -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/s3cr3t neo4j --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs 
+    image: neo4j:latest
+    container_name: app_neo4j
+    ports: 
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/s3cr3t
+#    volumes:
+#      - ./neo4j/data:/data
+#      - ./neo4j/logs:/logs
+    networks:
+      - app_prv_net
+
 #
 #  db:
 #    image: postgres:13-alpine
@@ -32,59 +93,23 @@ services:
 #    networks:
 #      - app_prv_net  
 
-#  api:
-#    #build: 
-#    #  context: ../app/
-#    #  dockerfile: api/Dockerfile.dev
-#    #  target: dev
-#    image: node:16-alpine
-#    command: sh -c "npm install && npm run start"
-#    working_dir: /api
-#    container_name: app_api
-#    volumes:
-#      - ../app/api:/api
-#      - ../app/api/node_modules:/api/node_modules
-#    ports:
-#      - "4000:4000" 
-#      - "49155:49153"
-#    environment:
-#      - NODE_ENV=dev
   
-  ui:
-    #build: 
-    #  context: ../app/
-    #  dockerfile: ui/Dockerfile.dev
-    #  target: dev
-    image: node:16-alpine
-    command: sh -c "npm install && npm run start"
-    working_dir: /ui
-    container_name: app_ui
-    volumes:
-      - ../app/ui:/ui
-      - ../app/ui/node_modules:/ui/node_modules
-    ports:
-      - "4500:3000" 
-      - "49153:49153"
-    environment:
-      - NODE_ENV=dev
-    networks:
-      - app_prv_net
 
-  neo4j:
-    # https://neo4j.com/developer/docker/
-    # https://github.com/neo4j/docker-neo4j
-    # docker run -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/s3cr3t neo4j --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs 
-    image: neo4j:latest
-    container_name: app_neo4j
-    ports: 
-      - 7474:7474
-      - 7687:7687
-    environment:
-      - NEO4J_AUTH=neo4j/s3cr3t
+
+#  registry:
+#    restart: always
+#    image: registry:2
+#    ports:
+#      - 5000:5000
+#    environment:
+#      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
+#      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+#      REGISTRY_AUTH: htpasswd
+#      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+#      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
 #    volumes:
-#      - ./neo4j/data:/data
-#      - ./neo4j/logs:/logs
+#      - /path/data:/var/lib/registry
+#      - /path/certs:/certs
+#      - /path/auth:/auth
 
-networks:
-  app_prv_net:
     
