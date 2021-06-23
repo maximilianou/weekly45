@@ -119,9 +119,6 @@ services:
     networks:
       - app_prv_net
   neo4j:
-    # https://neo4j.com/developer/docker/
-    # https://github.com/neo4j/docker-neo4j
-    # docker run -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/s3cr3t neo4j --volume=$HOME/neo4j/data:/data --volume=$HOME/neo4j/logs:/logs 
     image: neo4j:latest
     container_name: app_neo4j
     ports: 
@@ -129,9 +126,6 @@ services:
       - 7687:7687
     environment:
       - NEO4J_AUTH=neo4j/s3cr3t
-#    volumes:
-#      - ./neo4j/data:/data
-#      - ./neo4j/logs:/logs
 networks:
   app_prv_net:
 ```
