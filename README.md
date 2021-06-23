@@ -8,6 +8,137 @@
 
 ---
 ---
+### Server - Online Firewall the server Alpine Linux - awall firewall ( iptables, ip6tables )
+- Makefile
+```yaml
+## server online alpine firewall - first steps
+step4506 alpine_firewall: 
+	apk update && apk upgrade
+	apk add ip6tables iptables
+	apk add -u awall
+	apk version awall
+step4507 alpine_kernel_load_module:
+	modprobe -v ip_tables
+	modprobe -v ip6_tables
+	modprobe -v iptable_nat
+	rc-update add iptables
+	rc-update add ip6tables
+  
+step4509 alpine_firewall_cloud:
+	cat <<EOF > /etc/awall/optional/cloud-server.json 
+	{ 
+	"description": "Default awall policy to protect Cloud server", 
+	"variable": { "internet_if": "eth0" }, 
+	"zone": { "internet": { "iface": "$internet_if" } }, 
+	"policy": [ 
+	{ "in": "internet", "action": "drop" }, 
+	{ "action": "reject" } 
+	] 
+	} 
+	EOF 
+
+step4510 alpine_firewall_ssh:
+	cat <<EOF > /etc/awall/optional/ssh.json 
+	{ 
+	"description": "Allow incoming SSH access (TCP/22)",
+	"filter": [ 
+	{ 
+	"in": "internet", 
+	"out": "_fw", 
+	"service": "ssh", 
+	"action": "accept", 
+	"conn-limit": { "count": 3, "interval": 60 } 
+	} 
+	] 
+	} 
+	EOF 
+
+step4511 alpine_firewall_ping:
+	cat <<EOF > /etc/awall/optional/ping.json
+	{
+		"description": "Allow ping-pong",
+		"filter": [
+			{
+				"in": "internet",
+				"service": "ping",
+				"action": "accept",
+				"flow-limit": { "count": 10, "internal": 6 }
+			}
+		]
+	}
+	EOF
+
+step4512 alpine_firewall_out:
+	cat <<EOF > /etc/awall/optional/outgoing.json 
+	{
+		"description": "Allow outgoing connection for dns, http/https, ssh, ping",
+		"filter": [
+			{
+				"in": "_fw",
+				"out": "internet",
+				"service": ["dns", "http", "https", "ssh", "ping", "ntp"],
+				"action": "accept"
+			}
+		]
+	}
+	EOF
+
+step4513 alpine_firewall_list:
+	awall list
+	#cloud-server  disabled  Default awall policy to protect Cloud server
+	#outgoing      disabled  Allow outgoing connection for dns, http/https, ssh, ping
+	#ping          disabled  Allow ping-pong
+	#ssh           disabled  Allow incoming SSH access (TCP/22)
+
+
+step4514 alpine_firewall_enable:
+	awall enable cloud-server
+	awall enable ssh
+	awall enable ping
+	awall enable outgoing
+
+step4515 alpine_firewall_activate:
+	awall activate
+
+step4516 alpine_firewall_http:
+	cat <<EOF > /etc/awall/optional/http.json
+	{
+		"description": "Allow incoming http/https (tcp/80 and 443) ports",
+		"filter": [
+			{
+				"in": "internet",
+				"out": "_fw",
+				"service": [ "http", "https" ],
+				"action": "accept"
+			}
+		]
+	}
+	EOF
+	awall enable http
+	awall activate
+
+step4517 alpine_firewall_iptable_list:
+	iptables -S
+	ip6tables -S
+
+step4518 alpine_firewall_dropped_log:
+	dmesg | grep -w DPT=22
+
+step4519 alpine_firewall_disable_reset_awall:
+	rc-service iptables stop
+	rc-service ip6tables stop
+	awall disable cloud-server
+	awall disable ssh
+	awall disable ping
+	awall disable outgoing
+	awall disable http
+	rc-update del ip6tables
+	rc-update del iptables
+
+```
+
+---
+---
 #### Starting the project Neo4j, ui, api
 - Running in command line ( terminal )
 ```yaml
