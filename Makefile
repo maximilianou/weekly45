@@ -21,6 +21,18 @@ step4551 dapp-ui-ether:
 step4552 dapp-ui-ether-create:
 	cd dapp/ui && npx hardhat
 
+step4553 dapp-ui-ether-compile:
+	cd dapp/ui && npx hardhat compile
+
+step4554 dapp-ui-ether-node-local-network:
+	cd dapp/ui && npx hardhat node
+
+step4555 dapp-ui-ether-run:
+	cd dapp/ui && npx hardhat run scripts/deploy.js --network localhost
+
+step4556 dapp-ui-ether-start:
+	cd dapp/ui && npm run start
+
 
 #####################################################3
 

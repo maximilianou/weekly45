@@ -6,6 +6,29 @@
 ---
 [wip]
 
+
+---
+---
+#### Smart Contract, DApp Decentrilized web, web3 
+- Makefile
+```yaml
+## dapp
+step4550 dapp-ui-init:
+	cd dapp && npx create-react-app ui
+step4551 dapp-ui-ether:
+	cd dapp/ui && npm i ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers
+step4552 dapp-ui-ether-create:
+	cd dapp/ui && npx hardhat
+step4553 dapp-ui-ether-compile:
+	cd dapp/ui && npx hardhat compile
+step4554 dapp-ui-ether-node-local-network:
+	cd dapp/ui && npx hardhat node
+step4555 dapp-ui-ether-run:
+	cd dapp/ui && npx hardhat run scripts/deploy.js --network localhost
+step4556 dapp-ui-ether-start:
+	cd dapp/ui && npm run start
+```
+
 ---
 ---
 ### Server - Online Firewall the server Alpine Linux - awall firewall ( iptables, ip6tables )
