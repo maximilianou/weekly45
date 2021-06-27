@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { ethers } from 'ethers'
 import './App.css';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json';
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname+'/.env' });
 
-const greeterAddress = '0x5';
+//const greeterAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const greeterAddress = process.env.ETH_ACCOUNT;
 function App() {
   const [greeting, setGreetingValue] = useState('');
   const requestAccount = async () => {

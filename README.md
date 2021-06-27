@@ -1,5 +1,5 @@
-# weekly45
-### Learning graphql
+# weekly45 - Typescript - nodejs - 
+## Learning first approach smart contract, kubernetes, docker compose local env, alpine firewall
 
 
 ---
@@ -9,7 +9,7 @@
 
 ---
 ---
-#### Smart Contract, DApp Decentrilized web, web3 
+### Smart Contract, DApp Decentrilized web, web3 
 
 ```js
 import { useState } from 'react';
@@ -215,7 +215,7 @@ step4519 alpine_firewall_disable_reset_awall:
 
 ---
 ---
-#### Starting the project Neo4j, ui, api
+### Starting the project Neo4j, ui, api
 - Running in command line ( terminal )
 ```yaml
 $ make step4500 # cleaning docker images and containers
@@ -283,7 +283,7 @@ services:
 
 ---
 ---
-#### Starting the project Neo4j, ui
+### Starting the project Neo4j, ui
 - Running in command line ( terminal )
 ```yaml
 $ make step4500 # cleaning docker images and containers
@@ -343,7 +343,7 @@ networks:
 
 ---
 ---
-#### Starting the project ui base react, typescript, docker-compose local env
+### Starting the project ui base react, typescript, docker-compose local env
 ---
 - Makefile - docker compose
 ```yaml

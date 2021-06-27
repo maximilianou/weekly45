@@ -18,6 +18,8 @@ step4550 dapp-ui-init:
 	cd dapp && npx create-react-app ui
 step4551 dapp-ui-ether:
 	cd dapp/ui && npm i ethers hardhat @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers
+	cd dapp/ui && npm i dotenv
+	
 step4552 dapp-ui-ether-create:
 	cd dapp/ui && npx hardhat
 
