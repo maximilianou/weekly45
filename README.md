@@ -7,6 +7,16 @@
 [WIP]
 
 
+- https://metamask.io/download.html ## 
+  - metamask - new Account prv key _ >> hardhat.config.js
+- https://ropsten.etherscan.io/
+- https://infura.io/ ## remote environment deployment ## Test network Configuation
+  - projectID: _ >>  
+  - endpoint: _ >> hardhat.config.js
+- https://faucet.ropsten.be/
+  - copy from metamask accountId _ >> enter your test net account address
+
+
 ---
 ---
 ### Smart Contract, DApp Decentrilized web, web3 
